@@ -1,5 +1,5 @@
-# Vagrant :: jenkins
-Run the latest Jenkins version on CentOS 7.
+# Vagrant :: Jenkins
+Run the latest Jenkins version on CentOS 7 with Docker-CE installed.
 
 ## Custom SSH key
 With this script, Vagrant will inject your own custom SSH key instead of using the one Vagrant automatically generates for you.

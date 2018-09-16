@@ -24,18 +24,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # VM :: Jenkins Master
   config.vm.define 'jenkins' do |jenkins|
-    jenkins_m.vm.hostname = 'Jenkins'
-    jenkins_m.vm.network 'private_network', ip: '10.0.1.20'
-    jenkins_m.vm.network :forwarded_port, host: 8080, guest: 8080
-    jenkins_m.vm.network :forwarded_port, host: 50000, guest: 50000
-    jenkins_m.vm.provider 'virtualbox' do |v|
+    jenkins.vm.hostname = 'Jenkins'
+    jenkins.vm.network 'private_network', ip: '10.0.1.20'
+    jenkins.vm.network :forwarded_port, host: 8080, guest: 8080
+    jenkins.vm.network :forwarded_port, host: 50000, guest: 50000
+    jenkins.vm.provider 'virtualbox' do |v|
       v.name = 'Jenkins'
       v.memory = 768
       v.cpus = 1
       v.gui = false
       v.linked_clone = true
     end
-    jenkins_m.vm.provision 'ansible' do |ansible|
+    jenkins.vm.provision 'ansible' do |ansible|
       ansible.compatibility_mode = '2.0'
       ansible.playbook = 'provisioning/playbook.yml'
       ansible.become = true

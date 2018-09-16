@@ -34,3 +34,44 @@
       name: jenkins
       state: started
       enabled: yes
+
+  - name: Remove any previous versions of Docker
+    yum:
+      name: "{{ item.name }}"
+      state: absent
+    with_items:
+      - { name: docker }
+      - { name: docker-common }
+      - { name: container-selinux }
+      - { name: docker-engine-selinux }
+      - { name: docker-engine }
+      - { name: docker-ce }
+
+  - name: Install packages for Docker
+    yum:
+      name: "{{ item.name }}"
+      state: latest
+    with_items:
+      - { name: yum-utils }
+      - { name: device-mapper-persistent-data }
+      - { name: lvm2 }
+
+  - name: Import Docker CE repository gpg key
+    rpm_key:
+      key: https://download.docker.com/linux/centos/gpg
+      state: present
+
+  - name: Add Docker CE repository
+    get_url:
+      url: https://download.docker.com/linux/centos/docker-ce.repo
+      dest: /etc/yum.repos.d/docker-ce.repo
+      force: yes
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: Install Docker CE
+    yum:
+      name: docker-ce
+      state: present
+      update_cache: yes
